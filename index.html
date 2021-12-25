@@ -1,0 +1,111 @@
+---
+layout: default
+home-title: 欢迎来到我的博客
+description: 在这里分享我的coder经历
+---
+
+{% include header.html %}
+
+<div class="g-banner home-banner {{ site.theme-color | prepend: 'banner-theme-' }}" data-theme="{{ site.theme-color }}"
+    style="{% if page.header-img %}background: url({{ page.header-img | relative_url }}) no-repeat center center; background-size: cover;{% endif %}">
+    <h2>{{ page.home-title }}</h2>
+    <h3>{{ page.description }}</h3>
+</div>
+
+<main class="g-container home-content">
+    <div class="article-list">
+        <div class="post-content" style="padding-left: 30px;padding-right: 30px;width: auto;">
+            <article class="markdown-body" style="width: auto;">
+                <h1 id="关于我">关于我</h1>
+
+                <p>
+				我是李乐升，目前上海大学计算机工程与科学学院专业硕士研一在读。
+				</p>
+
+                <h1 id="技术方向">技术方向</h1>
+
+                <p><img src="/assets/icons/Java.png" alt="Java" class="interest" />
+                    <img src="/assets/icons/Spring.png" alt="Spring" class="interest"/>
+                    <img src="/assets/icons/redis.png" alt="redis" class="interest"  />
+                    <img src="/assets/icons/Mybatis.png" alt="Mybatis" class="interest" />
+               <!-- <h1 id="教育经历">教育经历</h1>
+
+                <ul>
+                    <li></li>
+                    
+                </ul>
+
+                <h1 id="论文发表">论文发表</h1>
+
+                <ol>
+                    <li><strong>S Li</strong>, H Zhang, D Dai, G Ding, X Wei, Y Guo. Study on the factors affecting
+                        solid solubility in binary alloys: An exploration by Machine Learning[J]. <em>Journal of Alloys
+                            and Compounds</em>, 2019, 782: 110-118.<a
+                            href="https://doi.org/10.1016/j.jallcom.2018.12.136">[DOI]</a></li>
+                    
+                </ol> -->
+
+                <h1 id="联系我">联系我</h1>
+
+                <p>邮箱：leshengli[at]shu.edu.cn (请使用@替换[at])</p>
+
+            </article>
+        </div>
+    </div>
+
+    <aside class="g-sidebar-wrapper">
+        <div class="g-sidebar">
+            <section class="author-card">
+                <div class="avatar">
+                    <img src="{{ site.avatar | relative_url }}" alt="">
+                </div>
+                <div class="author-name" rel="author">{{ site.author }}</div>
+                <div class="bio">
+                    <p>{{ site.bio }}</p>
+                </div>
+                {% if site.sns.size > 0 %}
+                <ul id="sns-links" class="sns-links">
+                    {% for s in site.sns %}
+                    <li>
+                        <a href="{{ s[1] }}" target="_blank">
+                            <i class="iconfont icon-{{ s[0] }}"></i>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </section>
+
+            {% if site.recommend-tags and site.tags.size>0 %}
+            <section class="tags-card">
+                {% for tag in site.tags %}
+                {% if forloop.index > site.recommend-condition-size %}
+                {% break %}
+                {% endif %}
+                <a href="{{ "tags.html#" | append: tag[0] | relative_url }}" class="tag">{{ tag[0]}}</a>
+                {% endfor %}
+            </section>
+            {% endif %}
+        </div>
+
+        {% if site.search %}
+        <div class="search-card">
+            <input id="search_input" type="text" placeholder="Search..." autocomplete="off">
+            <i class="iconfont icon-search"></i>
+            <div class="search_result"></div>
+        </div>
+        {% endif %}
+
+    </aside>
+
+</main>
+<style>
+.interest{
+	width: auto;
+    height: 70px;
+    display: inline-block!important;
+    margin: 0 20px 0 0!important;
+	}
+	
+</style>
+{% include footer.html %}

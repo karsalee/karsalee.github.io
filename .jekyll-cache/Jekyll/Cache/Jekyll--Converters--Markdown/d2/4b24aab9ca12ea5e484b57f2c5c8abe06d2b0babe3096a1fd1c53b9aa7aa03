@@ -1,0 +1,598 @@
+I"�<h1 id="1单例模式">1、单例模式</h1>
+
+<h2 id="饿汉式">饿汉式</h2>
+
+<h3 id="静态变量型">静态变量型</h3>
+
+<ul>
+  <li>构造器私有化（防止通过new创建对象）</li>
+  <li>类的内部创建对象</li>
+  <li>向外暴露一个静态的公共方法</li>
+  <li>代码实现</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个对象实例</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>
+    <span class="c1">// 3.对外提供一个公有的静态方法返回对象</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>优点：这种写法比较简单，在类加载的时候就完成了实例化，避免了线程的同步问题</p>
+
+<p>缺点：在类加载的时候就完成了实例化，没有达到懒加载的目的，如果后续不需要使用该实例对象的话会导致内存的浪费</p>
+
+<h3 id="静态代码块型">静态代码块型</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个对象引用</span>
+    <span class="kd">private</span>  <span class="kd">static</span> <span class="nc">Singleton</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="c1">// 3.在静态代码块中创建对象实例</span>
+    <span class="kd">static</span><span class="o">{</span>
+        <span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="c1">// 4.对外提供一个公有的静态方法返回对象</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>优点、缺点和上述相同</p>
+
+<h2 id="懒汉式">懒汉式</h2>
+
+<h3 id="线程不安全">线程不安全</h3>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个对象引用</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="c1">// 3.对外提供一个公有的静态方法，在该方法中才对对象进行实例化</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>优点：起到了懒加载的效果。</p>
+
+<p>缺点：只能在单线程的情况下使用。</p>
+
+<p><strong>实际情况不建议使用这种方式</strong>，因为在多线程情况下，当一个线程走到if(singleton == null)判断时，满足情况可以进入if，但是还没有进行new操作，另外一个线程走到if，对象==null满足，也可以进入if，会导致错误。</p>
+
+<h3 id="线程安全">线程安全</h3>
+
+<h4 id="同步方法">同步方法</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个对象引用</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="c1">// 3.对外提供一个公有的静态方法，在该方法中才对对象进行实例化,加了一个锁，解决线程不同步的问题</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>解决了线程不安全问题，但是效率太低了，<strong>实际开发中，不推荐使用该方法</strong></p>
+
+<h4 id="同步代码块">同步代码块</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个对象引用</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="c1">// 3.对外提供一个公有的静态方法，在该方法中才对对象进行实例化</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="c1">// 使用同步代码块进行实例化</span>
+            <span class="kd">synchronized</span><span class="o">(</span><span class="nc">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">){</span>
+            	<span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>                
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>该方法其实毫无意义，不要使用，只是有人去写，同样会有多线程问题</strong></p>
+
+<h2 id="双重检查">双重检查</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个对象引用</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="nc">Singleton</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="c1">// 3.对外提供一个公有的静态方法，在该方法中才对对象进行实例化</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+            <span class="c1">// 使用同步代码块进行实例化</span>
+            <span class="kd">synchronized</span><span class="o">(</span><span class="nc">Singleton</span><span class="o">.</span><span class="na">class</span><span class="o">){</span>
+                <span class="c1">// 第二重检查，保证了只有一个线程进入了这里</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">singleton</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+	            	<span class="n">singleton</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singleton</span><span class="o">();</span>                
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">singleton</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>推荐使用</strong></p>
+
+<p>保证了线程安全，也达到了懒加载的目的，效率比较高</p>
+
+<h2 id="静态内部类">静态内部类</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="c1">// 1.先将构造器私有化</span>
+    <span class="kd">private</span> <span class="nf">Singleton</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+    <span class="c1">// 2.在类的内部创建一个静态内部类</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nf">SingletonInstance</span><span class="o">(){</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Singleton</span> <span class="no">SINGLETON</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Singletion</span><span class="o">();</span> 
+    <span class="o">}</span>
+    <span class="c1">// 3.对外提供一个公有的静态方法，返回静态内部类中的实例成员</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Singleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="nc">SingletonInstance</span><span class="o">.</span><span class="na">SINGLETON</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>推荐使用</strong></p>
+
+<p>这种方式采用了类装载的机制来保证初始化实例的时候只有一个线程，静态内部类在Singleton类装载的时候并不会被立即实例化， 而是在需要实例化的时候调用getInstance方法，才会装载SingletonInstance类，从而完成对象的实例化。</p>
+
+<h2 id="枚举">枚举</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="nc">Singleton</span><span class="o">{</span>
+    <span class="no">INSTANCE</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">methon</span><span class="o">(){</span>
+        
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>推荐使用</strong></p>
+
+<h1 id="2工厂模式">2、工厂模式</h1>
+
+<h2 id="简单工厂模式">简单工厂模式</h2>
+
+<ul>
+  <li>简单工厂模式是属于创建型模式。简单工厂模型是由一个工厂对象决定创建出哪一类的产品类的实例</li>
+  <li>简单工厂模式定义了一个创建对象的类，由这个类来封装实例化对象的代码</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleFactory</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="nc">Pizza</span> <span class="nf">createPizza</span><span class="o">(</span><span class="nc">String</span> <span class="n">orderType</span><span class="o">){</span>
+        <span class="nc">Pizza</span> <span class="n">pizza</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">orderType</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"greek"</span><span class="o">)){</span>
+            <span class="n">pizza</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">GreekPizza</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">orderType</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"cheese"</span><span class="o">)){</span>
+            <span class="n">pizza</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">CheesePizza</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">orderType</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"pepper"</span><span class="o">)){</span>
+            <span class="n">pizza</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">PepperPizza</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="c1">// 最后根据需求返回了相对应的实例化对象</span>
+        <span class="k">return</span> <span class="n">pizza</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="工厂方法模式">工厂方法模式</h2>
+
+<ul>
+  <li>将实例化功能抽象为抽象方法，在不同的类中再进行实现</li>
+  <li>定义了一个创建对象的抽象方法，由子类来决定要实例化的类，在该模式中将对象的实例化推迟到了子类</li>
+</ul>
+
+<h2 id="抽象工厂模式">抽象工厂模式</h2>
+
+<ul>
+  <li>先定义一个interface用于创建相关或有依赖关系的对象簇，而无需指明具体的类</li>
+</ul>
+
+<p>举例说明，有两个工厂，美的、格力。这两个工厂都生产两种产品：冰箱和洗衣机。下面使用抽象工厂模式来描述每个工厂的两种产品的创建过程。</p>
+
+<ul>
+  <li>先创建两个产品的接口</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 冰箱
+ */</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IFridge</span> <span class="o">{</span>
+    <span class="c1">// 冷藏</span>
+    <span class="kt">void</span> <span class="nf">coldStorage</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="cm">/**
+ * 洗衣机
+ */</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IWasher</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">wash</span><span class="o">();</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>创建每个工厂的两种产品（总共四种产品）</li>
+</ul>
+
+<p>美的的冰箱和洗衣机</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MeideFridge</span> <span class="kd">implements</span> <span class="nc">IFridge</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">coldStorage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"美的冰箱"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MeideWasher</span> <span class="kd">implements</span> <span class="nc">IWasher</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">wash</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"美的洗衣机"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>格力的冰箱和洗衣机</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeliFridge</span> <span class="kd">implements</span> <span class="nc">IFridge</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">coldStorage</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"格力冰箱"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeliWasher</span> <span class="kd">implements</span> <span class="nc">IWasher</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">wash</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"格力洗衣机"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>创建抽象工厂接口，家用电器工厂，生产一组产品</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 抽象工厂接口，家用电器工厂，生产冰箱和洗衣机
+ */</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IHouseholdElectricFactory</span> <span class="o">{</span>
+
+    <span class="nc">IFridge</span> <span class="nf">createFridge</span><span class="o">();</span>
+
+    <span class="nc">IWasher</span> <span class="nf">createWasher</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>创建具体产品等级的工厂，创建美的和格力的工厂实现类。</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MeideHouseholdFactory</span> <span class="kd">implements</span> <span class="nc">IHouseholdElectricFactory</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">IFridge</span> <span class="nf">createFridge</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MeideFridge</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">IWasher</span> <span class="nf">createWasher</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MeideWasher</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeliHouseholdFactory</span> <span class="kd">implements</span> <span class="nc">IHouseholdElectricFactory</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">IFridge</span> <span class="nf">createFridge</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">GeliFridge</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="nc">IWasher</span> <span class="nf">createWasher</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">GeliWasher</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>客户端代码使用</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AbsFactoryTest</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+        <span class="nc">IHouseholdElectricFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MeideHouseholdFactory</span><span class="o">();</span>
+        <span class="n">factory</span><span class="o">.</span><span class="na">createFridge</span><span class="o">().</span><span class="na">coldStorage</span><span class="o">();</span>
+        <span class="n">factory</span><span class="o">.</span><span class="na">createWasher</span><span class="o">().</span><span class="na">wash</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="原型模式">原型模式</h1>
+
+<ul>
+  <li>原型模式是指用原型实例指定创建对象的种类，并且通过拷贝这些原型，创建新的对象</li>
+  <li>工作原理是通过将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝它们自己来实施创建，也就是对象.clone();</li>
+</ul>
+
+<h2 id="浅拷贝">浅拷贝</h2>
+
+<ul>
+  <li>对于数据类型是基本数据类型的成员变量，浅拷贝会直接进行值传递，也就是将该属性值复制一份给新的对象</li>
+  <li>对于数据类型是引用数据类型的成员变量，浅拷贝会进行引用传递，也就是将该成员变量的引用（内存地址）复制一份给新的对象，在一个对象中修改该成员变量会影响到其他对象的成员变量。</li>
+  <li>浅拷贝通过clone方法来实现</li>
+</ul>
+
+<h2 id="深拷贝">深拷贝</h2>
+
+<ul>
+  <li>
+    <p>复制对象的所有基本数据类型的成员变量值</p>
+  </li>
+  <li>
+    <p>为所有引用数据类型的成员变量申请内存空间，并复制每个引用数据类型成员变量所引用的对象，也就是说，深拷贝会对整个对象进行拷贝，而不是简单的拷贝其引用（内存地址）</p>
+  </li>
+  <li>
+    <p>深拷贝的实现方法：</p>
+
+    <ul>
+      <li>重写clone方法</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Demo</span> <span class="kd">implements</span> <span class="nc">Cloneable</span><span class="o">{</span>
+    <span class="c1">//....基本成员变量省略不写</span>
+    <span class="kd">private</span> <span class="nc">User</span> <span class="n">user</span><span class="o">;</span>
+      
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="nc">Object</span> <span class="nf">clone</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">CloneNotSupportedException</span><span class="o">{</span>
+        <span class="nc">Object</span> <span class="n">deep</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="c1">// 对简单数据类型和String进行拷贝</span>
+        <span class="n">deep</span> <span class="o">=</span> <span class="kd">super</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+        <span class="c1">// 对引用数据类型进行拷贝</span>
+        <span class="nc">Demo</span> <span class="n">demo</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Demo</span><span class="o">)</span> <span class="n">deep</span><span class="o">;</span>
+        <span class="n">demo</span><span class="o">.</span><span class="na">user</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span><span class="n">user</span><span class="o">.</span><span class="na">clone</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">deep</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>通过对象序列化实现</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 地址
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Address</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span> 
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">city</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">country</span><span class="o">;</span>
+    <span class="c1">// constructors, getters and setters</span>
+<span class="o">}</span>
+  
+<span class="cm">/**
+ * 用户
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">Address</span> <span class="n">address</span><span class="o">;</span>
+    <span class="c1">// constructors, getters and setters</span>
+<span class="o">}</span>
+  
+<span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">serializableCopy</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">Address</span> <span class="n">address</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Address</span><span class="o">(</span><span class="s">"杭州"</span><span class="o">,</span> <span class="s">"中国"</span><span class="o">);</span>
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"大山"</span><span class="o">,</span> <span class="n">address</span><span class="o">);</span>
+   
+    <span class="c1">// 使用Apache Commons Lang序列化进行深拷贝</span>
+    <span class="nc">User</span> <span class="n">copyUser</span> <span class="o">=</span> <span class="o">(</span><span class="nc">User</span><span class="o">)</span> <span class="nc">SerializationUtils</span><span class="o">.</span><span class="na">clone</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+   
+    <span class="c1">// 修改源对象的值</span>
+    <span class="n">user</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">setCity</span><span class="o">(</span><span class="s">"深圳"</span><span class="o">);</span>
+   
+    <span class="c1">// 检查两个对象的值不同</span>
+    <span class="n">assertNotSame</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">getCity</span><span class="o">(),</span> <span class="n">copyUser</span><span class="o">.</span><span class="na">getAddress</span><span class="o">().</span><span class="na">getCity</span><span class="o">());</span> 
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h1 id="建造者模式">建造者模式</h1>
+
+<ul>
+  <li>建造者模式又叫生成器模式，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户不需要知道内部的具体构建细节。</li>
+  <li>建造者模式中有四个角色：
+    <ul>
+      <li>产品角色：一个具体的产品对象</li>
+      <li>抽象建造者：创建一个Product对象的各个部件指定的接口</li>
+      <li>具体建造者：实现接口，构建和装配各个部件</li>
+      <li>指挥者：构建一个使用Builder接口的对象。主要是用于创建一个复杂的对象。主要有两个作用：隔离了客户和对象的生产过程；负责控制产品对象的生产过程</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="适配器模式">适配器模式</h1>
+
+<ul>
+  <li>
+    <p>适配器模式是将某个类的转换成客户端期望的另一个接口表示，主要的目的是兼容性，让原本两个因为接口不匹配不能一起工作的两个类协同工作。</p>
+  </li>
+  <li>
+    <p>主要分为三类：类适配器模式、对象适配器模式、接口适配器模式</p>
+
+    <ul>
+      <li>
+        <p>类适配器模式</p>
+
+        <p><img src="C:\Users\asus\AppData\Roaming\Typora\typora-user-images\image-20211217133831895.png" alt="image-20211217133831895" /></p>
+
+        <p>实例讲解：</p>
+
+        <ul>
+          <li>背景：小成买了一个进口的电视机</li>
+          <li>冲突：进口电视机要求电压（110V）与国内插头标准输出电压（220V）不兼容</li>
+          <li>解决方案：设置一个适配器将插头输出的220V转变成110V</li>
+        </ul>
+
+        <p>步骤一：创建<strong>Target接口（期待得到的插头）</strong>：能输出110V（将220V转换成110V）</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Target</span> <span class="o">{</span>
+    <span class="c1">//将220V转换输出110V（原有插头（Adaptee）没有的）</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">Convert_110v</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div>        </div>
+
+        <p>步骤二：创建源类（原有的插头） ；</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">PowerPort220V</span><span class="o">{</span>
+<span class="c1">//原有插头只能输出220V</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">Output_220v</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="mi">220</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>        </div>
+
+        <p>步骤三：创建适配器类（Adapter）</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Adapter220V</span> <span class="kd">extends</span> <span class="nc">PowerPort220V</span> <span class="kd">implements</span> <span class="nc">Target</span><span class="o">{</span>
+    <span class="c1">//期待的插头要求调用Convert_110v()，但原有插头没有</span>
+    <span class="c1">//因此适配器补充上这个方法名</span>
+    <span class="c1">//但实际上Convert_110v()只是调用原有插头的Output_220v()方法的内容</span>
+    <span class="c1">//所以适配器只是将Output_220v()作了一层封装，封装成Target可以调用的Convert_110v()而已</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">Convert_110v</span><span class="o">(){</span>
+        <span class="c1">// 返回了110V</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">Output_220v</span><span class="o">()/</span><span class="mi">2</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>        </div>
+
+        <p>步骤四：定义具体使用目标类，并通过Adapter类调用所需要的方法从而实现目标（不需要通过原有插头）</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//进口机器类</span>
+<span class="kd">class</span> <span class="nc">ImportedMachine</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">Work</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"进口机器正常运行"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+    
+<span class="c1">//通过Adapter类从而调用所需要的方法</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AdapterPattern</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+        <span class="c1">// 获取到适配器类对象</span>
+        <span class="nc">Target</span> <span class="n">mAdapter220V</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adapter220V</span><span class="o">();</span>
+        <span class="nc">ImportedMachine</span> <span class="n">mImportedMachine</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImportedMachine</span><span class="o">();</span>
+           
+        <span class="c1">//用户拿着进口机器插上适配器（调用Convert_110v()方法）</span>
+        <span class="c1">//再将适配器插上原有插头（Convert_110v()方法内部调用Output_220v()方法输出220V，然后对220V电压进行降压）</span>
+        <span class="c1">//适配器只是个外壳，对外提供110V，但本质还是220V进行供电</span>
+        <span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="n">mAdapter220V</span><span class="o">.</span><span class="na">Convert_110v</span><span class="o">();</span>
+        <span class="n">mImportedMachine</span><span class="o">.</span><span class="na">Work</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>对象适配器模式</p>
+
+        <blockquote>
+          <p>与类的适配器模式不同的是，对象的适配器模式不是使用继承关系连接到Adaptee类，而是使用委派关系连接到Adaptee类。</p>
+        </blockquote>
+
+        <p><img src="C:\Users\asus\AppData\Roaming\Typora\typora-user-images\image-20211217133852856.png" alt="image-20211217133852856" /></p>
+
+        <blockquote>
+          <p>在对象适配器模式中，上面插头例子就改成，Adapter220V不再继承PowerPort220V，而是在类中写了一个PowerPort220V的成员变量，通过构造函数进行一个注入。</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="桥接模式">桥接模式</h1>
+
+<ul>
+  <li>
+    <p>场景假设：现在汽车有很多种类，有小汽车、卡车、公交车等等，公路也有很多种类，有高速公路、国道等等。不同种类的汽车可以在不同种类的公路上开</p>
+  </li>
+  <li>
+    <p>传统方法：把路抽取出来，所有的路实现路基类；然后不同的车子实现不同的路，进行组合，实现了不同的车在不同的路上开，这样导致每多一种车或者一条路就要进行多个类的更新</p>
+  </li>
+  <li>
+    <p>桥接模式：把路抽取出来，所有的路实现路基类；把所有的车抽取出来，所有的车实现车基类；在路基类中有一个车基类的成员变量。后续不同的路在实现的时候可以传入不同的车，实现多种组合。</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 抽象路</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractRoad</span><span class="o">{</span>
+    <span class="kd">protected</span> <span class="nc">AbstractCar</span> <span class="n">abstractCar</span><span class="o">;</span>
+    <span class="nc">AbstractRoad</span><span class="o">(</span><span class="nc">AbstractCar</span> <span class="n">abstractCar</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">abstractCar</span> <span class="o">=</span> <span class="n">abstractCar</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="c1">// 抽象车</span>
+<span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">AbstractCar</span>
+<span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="c1">// 路的实现类</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HighWay</span> <span class="kd">extends</span> <span class="nc">AbstractRoad</span><span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(){</span>
+        <span class="n">abstractCar</span><span class="o">.</span><span class="na">run</span><span class="o">();</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"高速公路跑"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Bus</span> <span class="kd">extends</span> <span class="nc">AbstractCar</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(){</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"公交车跑"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h1 id="装饰者模式">装饰者模式</h1>
+
+<ul>
+  <li>动态的将新功能附加到对象上。在对象功能扩展方面，它比继承更有弹性，装饰者模式也体现了开闭原则。</li>
+</ul>
+
+:ET
