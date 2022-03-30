@@ -273,9 +273,15 @@
     var hours=date.getHours();//小时
     var minute=date.getMinutes();//分
     var second=date.getSeconds();//秒
-    var time=year+"-"+fnW((month+1))+"-"+fnW(data)+" "+fnW(hours)+":"+fnW(minute)+":"+fnW(second);
-	var lastTime = calcBeiJing2CurrentZoneTime(time)
+    //var time=year+"-"+fnW((month+1))+"-"+fnW(data)+" "+fnW(hours)+":"+fnW(minute)+":"+fnW(second);
+	var beijingtime = new Date("2022-03-30 11:20:12");
+	var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
     oDiv.innerHTML=lastTime;
+	
+	// 获取当前时区
+	//var timezone = getCurrentZone();
+	//var beijingtime = new Date("2022-03-30 11:20:12");
+	//calcBeiJing2CurrentZoneTime(beijingtime);
     }
     //补位 当某个字段不是两位数时补0
     function fnW(str){
