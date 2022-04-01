@@ -277,12 +277,7 @@
 	var beijingtime = new Date("2022-03-30 11:20:12");
 	var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
     oDiv.innerHTML=lastTime;
-	var fbtime1 = new Date(document.getElementById('fbtime'))
-	console.log("页面的发布时间："+document.getElementById('fbtime'));
-	console.log("原本的发布时间："+fbtime1);
-	var testTime = calcBeiJing2CurrentZoneTime(fbtime1)
-	console.log("计算后的发布时间："+testTime);
-	document.getElementById('fbtime').innerHTML=testTime
+	console.log("page.date"+page.date)
 	
 	// 获取当前时区
 	//var timezone = getCurrentZone();
