@@ -275,7 +275,7 @@
     var minute=date.getMinutes();//分
     var second=date.getSeconds();//秒
     //var time=year+"-"+fnW((month+1))+"-"+fnW(data)+" "+fnW(hours)+":"+fnW(minute)+":"+fnW(second);
-	var beijingtime = new Date(oDiv.substr(0, str.indexOf("+")));
+	var beijingtime = new Date(oDiv.substr(0, oDiv.indexOf("+")));
 	var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
     oDiv.innerHTML=lastTime;
 	
