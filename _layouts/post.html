@@ -31,6 +31,7 @@
            <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
            <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
         </div>
+		<div>{{page.date | date_to_string}}</div>
         <div id="time" style="margin-top:20px;"> </div>
       </div>
     </div>
@@ -277,7 +278,7 @@
 	var beijingtime = new Date("2022-03-30 11:20:12");
 	var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
     oDiv.innerHTML=lastTime;
-	console.log("page.date"+page.date)
+	
 	
 	// 获取当前时区
 	//var timezone = getCurrentZone();
