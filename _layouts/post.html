@@ -278,7 +278,7 @@
     //var time=year+"-"+fnW((month+1))+"-"+fnW(data)+" "+fnW(hours)+":"+fnW(minute)+":"+fnW(second);
 	var beijingtime = new Date(pagetime.substr(0, pagetime.indexOf("+")));
 	var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
-    oDiv.innerHTML=lastTime;
+    oDiv.innerHTML="<i class="iconfont icon-date"></i>"+lastTime;
 	
 	
 	// 获取当前时区
