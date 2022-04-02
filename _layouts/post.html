@@ -23,7 +23,7 @@
       <h1>{{ page.title }}</h1>
       <div class="post-meta">
         <span class="post-meta-item"><i class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span>
-        <time id="fbtime" class="post-meta-item" datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m" }}"><i class="iconfont icon-date"></i>{{ page.date | date_to_string }}</time>
+        <time id="fbtime" class="post-meta-item" datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m" }}"><i class="iconfont icon-date"></i>{{ page.date}}</time>
         <div style="margin-top:40px;">
           本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费{{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }} 分钟
         </div>
@@ -31,7 +31,7 @@
            <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
            <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
         </div>
-        <div id="time" style="margin-top:20px;"> {{page.date}}</div>
+        
       </div>
     </div>
     {% if page.cover %}
@@ -258,20 +258,14 @@
 		return str;
 	}	
 
-    //window.onload=function(){
 
-    //定时器每秒调用一次fnDate()
-    //setInterval(function(){
-    //fnDate();
-    //},1000);
-    //}
 	$().ready(function(){
         fnDate();
     })
 
     //js 获取当前时间
     function fnDate(){
-    var oDiv=document.getElementById("time");
+    var oDiv=document.getElementById("fbtime");
 	var pagetime = oDiv.innerHTML;
 	console.log("pagetime---__>"+pagetime);
     var date=new Date();
