@@ -19,6 +19,13 @@
             <a href="{{ "/tags.html#" | append: tag | relative_url }}" class="post-tag">{{ tag }}</a>
           {% endfor %}
         {% endif %}
+		<!-- 加入中英文转换标签 -->
+		{% if page.language == 'ch' %}
+			<a href="../en/{{page.title}}.html" class="post-tag">English</a>
+		{% endif %}
+		{% if page.language == 'en' %}
+			<a href="en/{{page.title}}.html" class="post-tag">中文</a>
+		{% endif %}
       </div>
       <h1>{{ page.title }}</h1>
       <div class="post-meta">
@@ -153,7 +160,6 @@
 		//输出时间
 		var yy = date.getFullYear()
 		var MM = date.getMonth() + 1
-
 		// +1使用new Date(YYYY,MM,DD,hh,mm,ss)这种方式月数不会默认-1但是使用new Date('YYYY-MM-DD hh:mm:ss')会默认-1
 		MM = MM < 10 ? '0' + MM : MM
 		var dd = date.getDate()
@@ -183,14 +189,13 @@
         fnDate();
     })
 
-    //js 获取当前时间
+    //实现时间显示转换
     function fnDate(){
-    var oDiv=document.getElementById("fbtime");
-	var pagetime = oDiv.innerHTML;
-	var beijingtime = new Date(pagetime.substr(0, pagetime.indexOf("+")));
-	var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
-    oDiv.innerHTML=lastTime;
-	
+		var oDiv=document.getElementById("fbtime");
+		var pagetime = oDiv.innerHTML;
+		var beijingtime = new Date(pagetime.substr(0, pagetime.indexOf("+")));
+		var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
+		oDiv.innerHTML=lastTime;
     }
    
 
