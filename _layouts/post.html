@@ -193,7 +193,7 @@
     function fnDate(){
 		var oDiv=document.getElementById("fbtime");
 		var pagetime = oDiv.innerHTML;
-		var beijingtime = new Date(pagetime.substr(0, pagetime.indexOf("+")));
+		var beijingtime = new Date(pagetime.substr(0, pagetime.indexOf("+")).replace(/-/g, “/”));
 		var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
 		oDiv.innerHTML=lastTime;
     }
