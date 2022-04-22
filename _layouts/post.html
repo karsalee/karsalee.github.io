@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 {% include post-head.html %}
+{% raw %}{% include clickable-image.html %}{% endraw %}
 
 <body>
   <!--[if lt IE 10]>
@@ -20,11 +21,11 @@
           {% endfor %}
         {% endif %}
 		<!-- 加入中英文转换标签 -->
-		{% if page.language == 'ch' %}
-			<a href="../en/{{page.title}}.html" class="post-tag">English</a>
+		{% if page.language == 'zh' %}
+			<a href="../en/{{page.title}}.html" class="post-tag">En</a>
 		{% endif %}
 		{% if page.language == 'en' %}
-			<a href="../ch/{{page.title}}.html" class="post-tag">中文</a>
+			<a href="../zh/{{page.title}}.html" class="post-tag">中文</a>
 		{% endif %}
       </div>
       <h1>{{ page.title }}</h1>
@@ -193,7 +194,7 @@
     function fnDate(){
 		var oDiv=document.getElementById("fbtime");
 		var pagetime = oDiv.innerHTML;
-		var beijingtime = new Date((pagetime.substr(0, pagetime.indexOf("+"))).replace(/-/g, "/"));
+		var beijingtime = new Date(pagetime.replace(/-/g, "/"));
 		var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
 		oDiv.innerHTML=lastTime;
     }
