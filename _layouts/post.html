@@ -6,6 +6,7 @@
   <!--[if lt IE 10]>
 <div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
 <![endif]-->
+
   <input id="nm-switch" type="hidden" value="{{ site.nightMode }}"> {% include header.html %}
 
   <header
@@ -42,7 +43,7 @@
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
           <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
 		  -->
-		  本文总访问量：<span data-hk-page="{{page.url}}"> - </span>
+		  
         </div>
 
       </div>
@@ -286,9 +287,6 @@
       });
     }
   </script>
-  <!-- 用于统计文章访问量的 -->
-  <script src="https://cdn1.lncld.net/static/js/av-min-1.5.0.js"></script>
-  <script src="https://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.3.0.js"></script>
 
   <script src="{{ "/assets/js/prism.js" | relative_url }}"></script>
   <script src="{{ "/assets/js/index.min.js" | relative_url }}"></script>
