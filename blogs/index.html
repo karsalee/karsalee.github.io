@@ -15,7 +15,7 @@ description: 上海大学硕士在读
 <main class="g-container home-content">
     <div class="article-list">
         {% for post in paginator.posts %}
-        <% if post.language == 'zh' %}
+        {% if post.language == 'zh' %}
         <article class="article-item">
             {% if post.cover %}
             <div class="post-cover">
