@@ -38,9 +38,9 @@ description: 上海大学硕士在读
 					<footer class="post-meta">
 						<div class="post-tags">
 							{% if post.tags.size > 0 %}
-								{% for tag in post.tags  %}
+								<!-- {% for tag in post.tags  %}
 								<a href={{ "tags.html#" | append: tag | relative_url }} class="post-tag">{{ tag }}</a>
-								{% endfor %}
+								{% endfor %} -->
 							{% endif %}
 						</div>
 						<time class="post-date" datetime="{{ post.date | date:"%y-%m-%d" }}">{{ post.date | date_to_string }}</time>
