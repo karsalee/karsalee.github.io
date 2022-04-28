@@ -5,7 +5,7 @@
     </div>
 </div>
 <script>
-    $("img").click(function () {
+    $("img:not(#bigimg)").click(function () {
         imgShow("#outerdiv", "#innerdiv", "#bigimg", this);
     });
 
