@@ -15,6 +15,7 @@ description: 上海大学硕士在读
 <main class="g-container home-content">
     <div class="article-list">
         {% for post in paginator.posts %}
+        <% if post.language == 'zh' %}
         <article class="article-item">
             {% if post.cover %}
             <div class="post-cover">
@@ -44,6 +45,7 @@ description: 上海大学硕士在读
                     datetime="{{ post.date | date:"%y-%m-%d" }}">{{ post.date | date_to_string }}</time>
             </footer>
         </article>
+        {% endif %}
         {% endfor %}
 
         <!--{% if paginator.total_pages > 1 %}
