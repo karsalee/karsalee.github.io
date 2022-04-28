@@ -10,44 +10,53 @@
 
   <header
     class="g-banner post-header {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }} {% unless page.cover %}post-no-cover{% endunless %}"
-    data-theme="{{ site.theme-color }}"
-  >
+    data-theme="{{ site.theme-color }}">
     <div class="post-wrapper">
       <div class="post-tags">
         {% if page.tags.size > 0 %}
-          {% for tag in page.tags  %}
-            <a href="{{ "/tags.html#" | append: tag | relative_url }}" class="post-tag">{{ tag }}</a>
-          {% endfor %}
+        {% for tag in page.tags  %}
+        <a href="{{ "/tags.html#" | append: tag | relative_url }}" class="post-tag">{{ tag }}</a>
+        {% endfor %}
         {% endif %}
-		<!-- 加入中英文转换标签 -->
-		{% if page.language == 'zh' %}
-			<a href="../en/{{page.title}}.html" class="post-tag">En</a>
-		{% endif %}
-		{% if page.language == 'en' %}
-			<a href="../zh/{{page.title}}.html" class="post-tag">中文</a>
-		{% endif %}
+        <!-- 加入中英文转换标签 -->
+        {% if page.language == 'zh' %}
+        <a href="../en/{{page.title}}.html" class="post-tag">En</a>
+        {% endif %}
+        {% if page.language == 'en' %}
+        <a href="../zh/{{page.title}}.html" class="post-tag">中文</a>
+        {% endif %}
       </div>
       <h1>{{ page.title }}</h1>
       <div class="post-meta">
-        <span class="post-meta-item"><i class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span>
-		<i class="iconfont icon-date"></i>
-        <time id="fbtime" class="post-meta-item" datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m" }}">{{ page.date}}</time>
+        <span class="post-meta-item"><i
+            class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span>
+        <i class="iconfont icon-date"></i>
+        <time id="fbtime" class="post-meta-item"
+          datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m" }}">{{ page.date}}</time>
         <div style="margin-top:40px;">
-          本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费{{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }} 分钟
+          本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费{{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
+          分钟
         </div>
         <div style="margin-top:40px;">
-           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-           <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+          <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
         </div>
-        
+
       </div>
     </div>
     {% if page.cover %}
     <div class="filter"></div>
-      <div class="post-cover" style="background: url('{{ page.cover | relative_url }}') center no-repeat; background-size: cover;"></div>
+    <div class="post-cover"
+      style="background: url('{{ page.cover | relative_url }}') center no-repeat; background-size: cover;"></div>
     {% endif %}
   </header>
 
+  <div id="outerdiv"
+    style="position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.7); z-index: 2; width: 100%; height: 100%; display: none;">
+    <div id="innerdiv" style="position: absolute;">
+      <img id="bigimg" style="border: 5px solid #fff;" src="" />
+    </div>
+  </div>
   <div class="post-content visible">
     {% if page.subtitle %}
     <h2 class="post-subtitle">{{ page.subtitle }}</h2>
@@ -78,8 +87,8 @@
         {% for s in site.sns %}
         <li>
           <a href="{{ s[1] }}" target="_blank">
-                    <i class="iconfont icon-{{ s[0] }}"></i>
-                </a>
+            <i class="iconfont icon-{{ s[0] }}"></i>
+          </a>
         </li>
         {% endfor %}
       </ul>
@@ -97,26 +106,26 @@
         <div class="filter"></div>
         <img src="{{ page.next.cover | relative_url }}" alt="">
         {% endif %}
-     </div>
+      </div>
       {% endif %}
 
       {% if page.previous.url %}
       <div class="read-next-item">
         <a href="{{ page.previous.url | relative_url }}" class="read-next-link"></a>
-          <section>
-            <span>{{ page.previous.title }}</span>
-            <p>{{ page.previous.excerpt | strip_html | strip_newlines | truncate: 60}}</p>
-          </section>
-          {% if page.previous.cover %}
-          <div class="filter"></div>
-          <img src="{{ page.previous.cover | relative_url }}" alt="">
-          {% endif %}
+        <section>
+          <span>{{ page.previous.title }}</span>
+          <p>{{ page.previous.excerpt | strip_html | strip_newlines | truncate: 60}}</p>
+        </section>
+        {% if page.previous.cover %}
+        <div class="filter"></div>
+        <img src="{{ page.previous.cover | relative_url }}" alt="">
+        {% endif %}
       </div>
       {% endif %}
     </section>
     {% if site.comments.disqus %}
     <section class="post-footer-item comment">
-        <div id="disqus_thread"></div>
+      <div id="disqus_thread"></div>
     </section>
     {% endif %}
   </section>
@@ -124,82 +133,84 @@
   {% include footer.html %}
 
   <script src="{{ "/assets/js/social-share.min.js" | relative_url }}"></script>
-  
+
   <script>
-  
     socialShare('.social-share', {
-      sites: [
-        {% for i in site.social-share-items %}
-          '{{ i }}'
-          {% if forloop.last == false %},
-          {% endif %}
-        {% endfor %}
+      sites: [{
+          %
+          for i in site.social - share - items %
+        }
+        '{{ i }}' {
+          %
+          if forloop.last == false %
+        },
+        {
+          % endif %
+        } {
+          % endfor %
+        }
       ],
       wechatQrcodeTitle: "分享到微信朋友圈",
       wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
     });
-	
   </script>
-  
+
   <script>
-	//根据传入时间，转换差异时区时间
-	function getTimeZoneDate2(date, timezone) {
-		var nowDate = date.getTime(); // 当前时间距 1970 年 1 月 1 日午夜（GMT 时间）之间的毫秒数
-		var targetDate = new Date(nowDate - timezone * 60 * 60 * 1000);
-		return targetDate;
-	}
+    //根据传入时间，转换差异时区时间
+    function getTimeZoneDate2(date, timezone) {
+      var nowDate = date.getTime(); // 当前时间距 1970 年 1 月 1 日午夜（GMT 时间）之间的毫秒数
+      var targetDate = new Date(nowDate - timezone * 60 * 60 * 1000);
+      return targetDate;
+    }
 
-	//获取当前时区
-	function getCurrentZone() {
-		var timezone = new Date().getTimezoneOffset() / 60 * -1;//获取时区; //目标时区时间，东八区   东时区正数 西市区负数
-		return timezone;
-	}
+    //获取当前时区
+    function getCurrentZone() {
+      var timezone = new Date().getTimezoneOffset() / 60 * -1; //获取时区; //目标时区时间，东八区   东时区正数 西市区负数
+      return timezone;
+    }
 
-	//时间格式化
-	function formatDate2Str(date) {
-		//输出时间
-		var yy = date.getFullYear()
-		var MM = date.getMonth() + 1
-		// +1使用new Date(YYYY,MM,DD,hh,mm,ss)这种方式月数不会默认-1但是使用new Date('YYYY-MM-DD hh:mm:ss')会默认-1
-		MM = MM < 10 ? '0' + MM : MM
-		var dd = date.getDate()
-		dd = dd < 10 ? '0' + dd : dd
-		var hh = date.getHours()
-		hh = hh < 10 ? '0' + hh : hh
-		var mm = date.getMinutes()
-		mm = mm < 10 ? '0' + mm : mm
-		var ss = date.getSeconds()
-		ss = ss < 10 ? '0' + ss : ss
-		return yy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss;
-	}
+    //时间格式化
+    function formatDate2Str(date) {
+      //输出时间
+      var yy = date.getFullYear()
+      var MM = date.getMonth() + 1
+      // +1使用new Date(YYYY,MM,DD,hh,mm,ss)这种方式月数不会默认-1但是使用new Date('YYYY-MM-DD hh:mm:ss')会默认-1
+      MM = MM < 10 ? '0' + MM : MM
+      var dd = date.getDate()
+      dd = dd < 10 ? '0' + dd : dd
+      var hh = date.getHours()
+      hh = hh < 10 ? '0' + hh : hh
+      var mm = date.getMinutes()
+      mm = mm < 10 ? '0' + mm : mm
+      var ss = date.getSeconds()
+      ss = ss < 10 ? '0' + ss : ss
+      return yy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss;
+    }
 
-	
 
-	//根据北京时间，转换成当前时区时间
-	function calcBeiJing2CurrentZoneTime(bjTime) {
-		var bjZone = 8;//中国时区
-		var timezone = getCurrentZone();// 当前时区 ,美国 -4，中国 8
-		var dt = getTimeZoneDate2(bjTime, bjZone - timezone);
-		var str = formatDate2Str(dt);
-		console.log(str);
-		return str;
-	}	
 
-	$().ready(function(){
-        fnDate();
+    //根据北京时间，转换成当前时区时间
+    function calcBeiJing2CurrentZoneTime(bjTime) {
+      var bjZone = 8; //中国时区
+      var timezone = getCurrentZone(); // 当前时区 ,美国 -4，中国 8
+      var dt = getTimeZoneDate2(bjTime, bjZone - timezone);
+      var str = formatDate2Str(dt);
+      console.log(str);
+      return str;
+    }
+
+    $().ready(function () {
+      fnDate();
     })
 
     //实现时间显示转换
-    function fnDate(){
-		var oDiv=document.getElementById("fbtime");
-		var pagetime = oDiv.innerHTML;
-		var beijingtime = new Date(pagetime.replace(/-/g, "/"));
-		var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
-		oDiv.innerHTML=lastTime;
+    function fnDate() {
+      var oDiv = document.getElementById("fbtime");
+      var pagetime = oDiv.innerHTML;
+      var beijingtime = new Date(pagetime.replace(/-/g, "/"));
+      var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
+      oDiv.innerHTML = lastTime;
     }
-   
-
-
   </script>
 
   {% if site.comments.disqus %}
@@ -213,8 +224,9 @@
     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
     */
-    (function() { // DON'T EDIT BELOW THIS LINE
-      var d = document, s = d.createElement('script');
+    (function () { // DON'T EDIT BELOW THIS LINE
+      var d = document,
+        s = d.createElement('script');
       s.src = '{{ site.comments.disqus_url }}';
       s.setAttribute('data-timestamp', +new Date());
       (d.head || d.body).appendChild(s);
@@ -223,50 +235,50 @@
   {% endif %}
   <script>
     $("img:not(#bigimg)").click(function () {
-        imgShow("#outerdiv", "#innerdiv", "#bigimg", this);
+      imgShow("#outerdiv", "#innerdiv", "#bigimg", this);
     });
 
     function imgShow(outerdiv, innerdiv, bigimg, _this) {
-        console.log(_this);
-        var src = _this.src; //获取当前点击的pimg元素中的src属性  
-        $(bigimg).attr("src", src); //设置#bigimg元素的src属性  
+      console.log(_this);
+      var src = _this.src; //获取当前点击的pimg元素中的src属性  
+      $(bigimg).attr("src", src); //设置#bigimg元素的src属性  
 
-        /*获取当前点击图片的真实大小，并显示弹出层及大图*/
-        $("<img/>").attr("src", src).on('load', function () {
-            var windowW = $(window).width(); //获取当前窗口宽度  
-            var windowH = $(window).height(); //获取当前窗口高度  
-            var realWidth = this.width; //获取图片真实宽度  
-            var realHeight = this.height; //获取图片真实高度  
-            var imgWidth, imgHeight;
-            var scale = 0.8; //缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放  
+      /*获取当前点击图片的真实大小，并显示弹出层及大图*/
+      $("<img/>").attr("src", src).on('load', function () {
+        var windowW = $(window).width(); //获取当前窗口宽度  
+        var windowH = $(window).height(); //获取当前窗口高度  
+        var realWidth = this.width; //获取图片真实宽度  
+        var realHeight = this.height; //获取图片真实高度  
+        var imgWidth, imgHeight;
+        var scale = 0.8; //缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放  
 
-            if (realHeight > windowH * scale) { //判断图片高度  
-                imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放  
-                imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度  
-                if (imgWidth > windowW * scale) { //如宽度扔大于窗口宽度  
-                    imgWidth = windowW * scale; //再对宽度进行缩放  
-                }
-            } else if (realWidth > windowW * scale) { //如图片高度合适，判断图片宽度  
-                imgWidth = windowW * scale; //如大于窗口宽度，图片宽度进行缩放  
-                imgHeight = imgWidth / realWidth * realHeight; //等比例缩放高度  
-            } else { //如果图片真实高度和宽度都符合要求，高宽不变  
-                imgWidth = realWidth;
-                imgHeight = realHeight;
-            }
-            $(bigimg).css("width", imgWidth); //以最终的宽度对图片缩放  
+        if (realHeight > windowH * scale) { //判断图片高度  
+          imgHeight = windowH * scale; //如大于窗口高度，图片高度进行缩放  
+          imgWidth = imgHeight / realHeight * realWidth; //等比例缩放宽度  
+          if (imgWidth > windowW * scale) { //如宽度扔大于窗口宽度  
+            imgWidth = windowW * scale; //再对宽度进行缩放  
+          }
+        } else if (realWidth > windowW * scale) { //如图片高度合适，判断图片宽度  
+          imgWidth = windowW * scale; //如大于窗口宽度，图片宽度进行缩放  
+          imgHeight = imgWidth / realWidth * realHeight; //等比例缩放高度  
+        } else { //如果图片真实高度和宽度都符合要求，高宽不变  
+          imgWidth = realWidth;
+          imgHeight = realHeight;
+        }
+        $(bigimg).css("width", imgWidth); //以最终的宽度对图片缩放  
 
-            var w = (windowW - imgWidth) / 2; //计算图片与窗口左边距  
-            var h = (windowH - imgHeight) / 2; //计算图片与窗口上边距  
-            $(innerdiv).css({
-                "top": h,
-                "left": w
-            }); //设置#innerdiv的top和left属性  
-            $(outerdiv).fadeIn("fast"); //淡入显示#outerdiv及.pimg  
-        });
+        var w = (windowW - imgWidth) / 2; //计算图片与窗口左边距  
+        var h = (windowH - imgHeight) / 2; //计算图片与窗口上边距  
+        $(innerdiv).css({
+          "top": h,
+          "left": w
+        }); //设置#innerdiv的top和left属性  
+        $(outerdiv).fadeIn("fast"); //淡入显示#outerdiv及.pimg  
+      });
 
-        $(outerdiv).click(function () { //再次点击淡出消失弹出层  
-            $(this).fadeOut("fast");
-        });
+      $(outerdiv).click(function () { //再次点击淡出消失弹出层  
+        $(this).fadeOut("fast");
+      });
     }
   </script>
 
