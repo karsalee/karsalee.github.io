@@ -34,12 +34,15 @@
         <time id="fbtime" class="post-meta-item"
           datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m" }}">{{ page.date}}</time>
         <div style="margin-top:40px;">
-          本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费{{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
+          本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费 {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
           分钟
         </div>
         <div style="margin-top:40px;">
+		<!-- 
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
           <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+		  -->
+		  本文总访问量：<span data-hk-page="{{page.url}}"> - </span>
         </div>
 
       </div>
@@ -283,10 +286,12 @@
       });
     }
   </script>
+  <!-- 用于统计文章访问量的 -->
+  <script src="https://cdn1.lncld.net/static/js/av-min-1.5.0.js"></script>
+  <script src="https://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.3.0.js"></script>
 
   <script src="{{ "/assets/js/prism.js" | relative_url }}"></script>
   <script src="{{ "/assets/js/index.min.js" | relative_url }}"></script>
-  <script type="text/javascript" src="https://s4.cnzz.com/z_stat.php?id=1281105379&web_id=1281105379"></script>
 </body>
 
 </html>
