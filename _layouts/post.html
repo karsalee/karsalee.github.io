@@ -7,7 +7,7 @@
 <div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
 <![endif]-->
 
-  <input id="nm-switch" type="hidden" value="{{ site.nightMode }}"> {% include header.html %}
+  <input id="nm-switch" type="hidden" value="{{ site.nightMode }}"> {% include post-header.html %}
 
   <header
     class="g-banner post-header {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }} {% unless page.cover %}post-no-cover{% endunless %}"
@@ -20,22 +20,21 @@
         {% endfor %}
         {% endif %}
         <!-- 加入中英文转换标签 -->
-        {% if page.language == 'zh' %}
+        <!-- {% if page.language == 'zh' %}
         <a href="../en/{{page.title}}.html" class="post-tag">En</a>
         {% endif %}
         {% if page.language == 'en' %}
         <a href="../zh/{{page.title}}.html" class="post-tag">中文</a>
-        {% endif %}
+        {% endif %} -->
       </div>
       <h1>{{ page.title }}</h1>
       <div class="post-meta">
         <span class="post-meta-item"><i
             class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span>
         <i class="iconfont icon-date"></i>
-        <time id="fbtime" class="post-meta-item"
-          datetime="YYYY-MM-DDThh:mm:ssTZD" style="display: none;">{{ page.date}}</time>
-          <time id="realtime" class="post-meta-item"
-          datetime="YYYY-MM-DDThh:mm:ssTZD"></time>
+        <time id="fbtime" class="post-meta-item" datetime="YYYY-MM-DDThh:mm:ssTZD"
+          style="display: none;">{{ page.date}}</time>
+        <time id="realtime" class="post-meta-item" datetime="YYYY-MM-DDThh:mm:ssTZD"></time>
         <div style="margin-top:40px;">
           本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费
           {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
@@ -185,14 +184,14 @@
     }
 
     //时间格式化
-    function formatDate2Str(date,timezone) {
+    function formatDate2Str(date, timezone) {
       var lasttimezone = '';
-      if(timezone >= 0){
-        let str = timezone>=10?'':'0'
-        lasttimezone = 'GMT+'+str+timezone+'00';
-      }else{
-        let str = timezone<=-10?'':'0'
-        lasttimezone = 'GMT-'+str+timezone+'00';
+      if (timezone >= 0) {
+        let str = timezone >= 10 ? '' : '0'
+        lasttimezone = 'GMT+' + str + timezone + '00';
+      } else {
+        let str = timezone <= -10 ? '' : '0'
+        lasttimezone = 'GMT-' + str + timezone + '00';
       }
       //输出时间
       var yy = date.getFullYear()
@@ -207,7 +206,7 @@
       mm = mm < 10 ? '0' + mm : mm
       var ss = date.getSeconds()
       ss = ss < 10 ? '0' + ss : ss
-      return yy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss + ' ' +lasttimezone ;
+      return yy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss + ' ' + lasttimezone;
     }
 
 
@@ -217,7 +216,7 @@
       var bjZone = 8; //中国时区
       var timezone = getCurrentZone(); // 当前时区 ,美国 -4，中国 8
       var dt = getTimeZoneDate2(bjTime, bjZone - timezone);
-      var str = formatDate2Str(dt,timezone);
+      var str = formatDate2Str(dt, timezone);
       return str;
     }
 
