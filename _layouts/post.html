@@ -186,9 +186,9 @@
     function formatDate2Str(date,timezone) {
       var lasttimezone = '';
       if(timezone >= 0){
-        lasttimezone = 'GMT+0'+timezone+'00';
+        lasttimezone = 'GMT+'+timezone>=10?'':'0'+timezone+'00';
       }else{
-        lasttimezone = 'GMT-0'+timezone+'00';
+        lasttimezone = 'GMT-'+timezone<=-10?'':'0'+timezone+'00';
       }
       //输出时间
       var yy = date.getFullYear()
