@@ -212,11 +212,8 @@
     function calcBeiJing2CurrentZoneTime(bjTime) {
       var bjZone = 8; //中国时区
       var timezone = getCurrentZone(); // 当前时区 ,美国 -4，中国 8
-      console.log("当前时区："+timezone);
       var dt = getTimeZoneDate2(bjTime, bjZone - timezone);
-      console.log("根据时区计算的时间："+dt);
       var str = formatDate2Str(dt,timezone);
-      console.log("转换后返回的时间："+str);
       return str;
     }
 
@@ -232,7 +229,6 @@
       var beijingtime = new Date((pagetime.substr(0, pagetime.indexOf("+"))).replace(/-/g, "/"));
       // console.log("beijingtime:"+beijingtime);
       var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
-      console.log("lastTime:"+lastTime);
       oDiv.innerHTML = lastTime;
     }
   </script>
