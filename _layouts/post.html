@@ -35,7 +35,7 @@
         <time id="fbtime" class="post-meta-item"
           datetime="YYYY-MM-DDThh:mm:ssTZD" style="display: none;">{{ page.date}}</time>
           <time id="realtime" class="post-meta-item"
-          datetime="YYYY-MM-DDThh:mm:ssTZD">{{ page.date}}</time>
+          datetime="YYYY-MM-DDThh:mm:ssTZD"></time>
         <div style="margin-top:40px;">
           本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费
           {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
