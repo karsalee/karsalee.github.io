@@ -229,9 +229,9 @@
       var oDiv = document.getElementById("fbtime");
       var pagetime = oDiv.innerHTML;
       // console.log("pagetime:"+pagetime);
-      // var beijingtime = new Date(pagetime.replace(/-/g, "/"));
+      var beijingtime = new Date((pagetime.substr(0, pagetime.indexOf("+"))).replace(/-/g, "/"));
       // console.log("beijingtime:"+beijingtime);
-      var lastTime = calcBeiJing2CurrentZoneTime(pagetime)
+      var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
       console.log("lastTime:"+lastTime);
       oDiv.innerHTML = lastTime;
     }
