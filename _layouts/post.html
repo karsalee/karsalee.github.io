@@ -227,13 +227,14 @@
 
     //实现时间显示转换
     function fnDate() {
-      // var oDiv = document.getElementById("fbtime");
-      var pagetime = $("#fbtime").innerHTML;
+      var oDiv = document.getElementById("fbtime");
+      var pagetime = oDiv.innerHTML;
       // console.log("pagetime:"+pagetime);
       var beijingtime = new Date((pagetime.substr(0, pagetime.indexOf("+"))).replace(/-/g, "/"));
       // console.log("beijingtime:"+beijingtime);
       var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
-      $("#realtime").innerHTML = lastTime;
+      var realDiv = document.getElementById("realtime");
+      realDiv.innerHTML = lastTime;
     }
   </script>
 
