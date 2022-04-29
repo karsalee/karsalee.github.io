@@ -33,6 +33,8 @@
             class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span>
         <i class="iconfont icon-date"></i>
         <time id="fbtime" class="post-meta-item"
+          datetime="YYYY-MM-DDThh:mm:ssTZD" style="display: none;">{{ page.date}}</time>
+          <time id="realtime" class="post-meta-item"
           datetime="YYYY-MM-DDThh:mm:ssTZD">{{ page.date}}</time>
         <div style="margin-top:40px;">
           本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费
@@ -225,13 +227,13 @@
 
     //实现时间显示转换
     function fnDate() {
-      var oDiv = document.getElementById("fbtime");
-      var pagetime = oDiv.innerHTML;
+      // var oDiv = document.getElementById("fbtime");
+      var pagetime = $("#fbtime").innerHTML;
       // console.log("pagetime:"+pagetime);
       var beijingtime = new Date((pagetime.substr(0, pagetime.indexOf("+"))).replace(/-/g, "/"));
       // console.log("beijingtime:"+beijingtime);
       var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
-      oDiv.innerHTML = lastTime;
+      $("#realtime").innerHTML = lastTime;
     }
   </script>
 
