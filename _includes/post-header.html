@@ -1,0 +1,21 @@
+<header class="g-header">
+    <div class="g-logo">
+        <a href="{{ "/" | relative_url }}"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            {% for i in site.nav %}
+            <li><a href="{{ i[1] | relative_url}}">{{ i[0] }}</a></li>
+            {% endfor %}
+            <li>
+                {% if page.language == 'zh' %}
+                <a href="../en/{{page.title}}.html" class="post-tag">En</a>
+                {% endif %}
+                {% if page.language == 'en' %}
+                <a href="../zh/{{page.title}}.html" class="post-tag">中文</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+</header>
