@@ -221,6 +221,7 @@
     //实现时间显示转换
     function fnDate() {
       var oDiv = document.getElementById("fbtime");
+      console.log("标签L:"+oDiv);
       var pagetime = oDiv.innerHTML;
       console.log("pagetime:"+pagetime);
       var beijingtime = new Date(pagetime.replace(/-/g, "/"));
