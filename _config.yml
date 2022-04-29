@@ -86,3 +86,6 @@ permalink: /:categories/:title.html
 
 # Plugins
 plugins: [jekyll-paginate]
+
+#时区
+timezone: +800
