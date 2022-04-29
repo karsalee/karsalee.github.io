@@ -183,7 +183,13 @@
     }
 
     //时间格式化
-    function formatDate2Str(date) {
+    function formatDate2Str(date,timezone) {
+      var lasttimezone = '';
+      if(timezone >= 0){
+        lasttimezone = 'GMT+0'+timezone+'00';
+      }else{
+        lasttimezone = 'GMT-0'+timezone+'00';
+      }
       //输出时间
       var yy = date.getFullYear()
       var MM = date.getMonth() + 1
@@ -197,7 +203,7 @@
       mm = mm < 10 ? '0' + mm : mm
       var ss = date.getSeconds()
       ss = ss < 10 ? '0' + ss : ss
-      return yy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss;
+      return yy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss + ' ' +lasttimezone ;
     }
 
 
@@ -209,7 +215,7 @@
       console.log("当前时区："+timezone);
       var dt = getTimeZoneDate2(bjTime, bjZone - timezone);
       console.log("根据时区计算的时间："+dt);
-      var str = formatDate2Str(dt);
+      var str = formatDate2Str(dt,timezone);
       console.log("转换后返回的时间："+str);
       return str;
     }
@@ -221,12 +227,11 @@
     //实现时间显示转换
     function fnDate() {
       var oDiv = document.getElementById("fbtime");
-      console.log("标签L:"+document.getElementById("fbtime"));
       var pagetime = oDiv.innerHTML;
-      console.log("pagetime:"+pagetime);
-      var beijingtime = new Date(pagetime.replace(/-/g, "/"));
-      console.log("beijingtime:"+beijingtime);
-      var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
+      // console.log("pagetime:"+pagetime);
+      // var beijingtime = new Date(pagetime.replace(/-/g, "/"));
+      // console.log("beijingtime:"+beijingtime);
+      var lastTime = calcBeiJing2CurrentZoneTime(pagetime)
       console.log("lastTime:"+lastTime);
       oDiv.innerHTML = lastTime;
     }
