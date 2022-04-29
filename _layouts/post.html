@@ -33,7 +33,7 @@
             class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}</span>
         <i class="iconfont icon-date"></i>
         <time id="fbtime" class="post-meta-item"
-          datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m TZD" }}">{{ page.date}}</time>
+          datetime="YYYY-MM-DDThh:mm:ssTZD">{{ page.date}}</time>
         <div style="margin-top:40px;">
           本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费
           {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
