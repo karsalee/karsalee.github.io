@@ -35,16 +35,17 @@
         <time id="fbtime" class="post-meta-item"
           datetime="{{ page.date | date:"%y-%m-%d %h:%s:%m" }}">{{ page.date}}</time>
         <div style="margin-top:40px;">
-          本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费 {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
+          本文字数大约为：{{ page.content | strip_html | strip_newlines | remove: " " | size }}，预计需要您花费
+          {{ page.content | strip_html | strip_newlines | remove: " " | size | divided_by: 350 | plus: 1 }}
           分钟
         </div>
         <div style="margin-top:40px;">
-		  
-		<!-- 
+
+          <!-- 
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
           <span id="busuanzi_container_site_pv">本文总访问量<span id="busuanzi_value_site_pv"></span>次</span>
 		  -->
-		  
+
         </div>
 
       </div>
@@ -78,7 +79,9 @@
     {% endif %}
   </div>
   <div style="position: relative;left: 38%;margin-bottom: 50px;">
-  <script id="LA-DATA-WIDGET" crossorigin="anonymous" charset="UTF-8" src="https://v6-widget.51.la/v6/JfinZ2ZFKqHElgaD/quote.js?theme=#1690FF,#333333,#000000,#333333,#FFFFFF,#1690FF,16&f=14&display=0,0,1,1,0,0,1,1"></script>
+    <script id="LA-DATA-WIDGET" crossorigin="anonymous" charset="UTF-8"
+      src="https://v6-widget.51.la/v6/JfinZ2ZFKqHElgaD/quote.js?theme=#1690FF,#333333,#000000,#333333,#FFFFFF,#1690FF,16&f=14&display=0,0,1,1,0,0,1,1">
+    </script>
   </div>
 
   <section class="author-detail">
@@ -203,9 +206,11 @@
     function calcBeiJing2CurrentZoneTime(bjTime) {
       var bjZone = 8; //中国时区
       var timezone = getCurrentZone(); // 当前时区 ,美国 -4，中国 8
+      console.log("当前时区："+timezone);
       var dt = getTimeZoneDate2(bjTime, bjZone - timezone);
+      console.log("根据时区计算的时间："+dt);
       var str = formatDate2Str(dt);
-      console.log(str);
+      console.log("转换后返回的时间："+str);
       return str;
     }
 
@@ -217,8 +222,11 @@
     function fnDate() {
       var oDiv = document.getElementById("fbtime");
       var pagetime = oDiv.innerHTML;
+      console.log("pagetime:"+pagetime);
       var beijingtime = new Date(pagetime.replace(/-/g, "/"));
+      console.log("beijingtime:"+beijingtime);
       var lastTime = calcBeiJing2CurrentZoneTime(beijingtime)
+      console.log("lastTime:"+lastTime);
       oDiv.innerHTML = lastTime;
     }
   </script>
