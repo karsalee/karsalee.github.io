@@ -18,17 +18,17 @@
             </li>
             {% for i in site.nav %}
             <li><a href="{{ i[1] | relative_url}}">{{ i[0] }}</a></li>
-            {% endfor %}           
+            {% endfor %}
         </ul>
     </nav>
     <script>
         let language = document.getElementById('language')
         if (language == 'en') {
-            $('#en').removeAttr('href')
-            $('#en').removeAttr('onclick')
+            $('#en').attr('disabled',"true")
+            $('#zh').removeAttr("disabled")
         } else {
-            $('#zh').removeAttr('href')
-            $('#zh').removeAttr('onclick')
+            $('#zh').attr('disabled',"true")
+            $('#en').removeAttr("disabled")
         }
     </script>
 </header>
