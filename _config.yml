@@ -89,3 +89,6 @@ plugins: [jekyll-paginate]
 
 #时区
 timezone: Asia/Shanghai
+
+#支持语言
+lang: ['en','zh','jp']
