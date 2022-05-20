@@ -6,29 +6,24 @@
     <span style="display: none;" id="language">{{page.language}}</span>
     <nav class="g-nav">
         <ul>
+		<!--
             <li>
-                <!-- TODO 修改a标签，post.html已修改 -->
+                 
                 {% if page.language == 'zh' %}
                 <a href="../en/{{page.title}}.html">En</a>
                 {% endif %}
                 {% if page.language == 'en' %}
                 <a href="../zh/{{page.title}}.html">中</a>
                 {% endif %}
-                <!-- <a href="../en/{{page.title}}.html" id="en">En</a>/<a href="../zh/{{page.title}}.html" id="zh">中</a> -->
             </li>
+			 -->
+			{% for la in site.lang %}
+			<li><a href="../{{ la }}/{{ page.title }}.html">{{ la }}</a></li>
             {% for i in site.nav %}
             <li><a href="{{ i[1] | relative_url}}">{{ i[0] }}</a></li>
             {% endfor %}
         </ul>
     </nav>
     <script>
-        // let language = document.getElementById('language')
-        // if (language == 'en') {
-        //     $('#en').attr('disabled',"true")
-        //     $('#zh').removeAttr("disabled")
-        // } else {
-        //     $('#zh').attr('disabled',"true")
-        //     $('#en').removeAttr("disabled")
-        // }
     </script>
 </header>
