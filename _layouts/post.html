@@ -15,17 +15,10 @@
     <div class="post-wrapper">
       <div class="post-tags">
         {% if page.tags.size > 0 %}
-        {% for tag in page.tags  %}
-        <a href="{{ "/tags.html#" | append: tag | relative_url }}" class="post-tag">{{ tag }}</a>
-        {% endfor %}
+			{% for tag in page.tags  %}
+			<a href="{{ "/tags.html#" | append: tag | relative_url }}" class="post-tag">{{ tag }}</a>
+			{% endfor %}
         {% endif %}
-        <!-- 加入中英文转换标签 -->
-        <!-- {% if page.language == 'zh' %}
-        <a href="../en/{{page.title}}.html" class="post-tag">En</a>
-        {% endif %}
-        {% if page.language == 'en' %}
-        <a href="../zh/{{page.title}}.html" class="post-tag">中文</a>
-        {% endif %} -->
       </div>
       <h1>{{ page.title }}</h1>
       <div class="post-meta">
