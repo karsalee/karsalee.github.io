@@ -18,7 +18,9 @@
             </li>
 			 -->
 			{% for la in site.lang %}
+			{% if page.supportLang.contains(la) %}
 			<li><a href="../{{ la }}/{{ page.title }}.html">{{ la }}</a></li>
+			{% endif %}
 			{% endfor %}
             {% for i in site.nav %}
             <li><a href="{{ i[1] | relative_url}}">{{ i[0] }}</a></li>
