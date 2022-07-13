@@ -296,20 +296,28 @@
   </script>
   
   <script>
-
+    // 实现UML图转换
     $().ready(function () {
-      // 实现UML图转换
-      // 先获取到p段落中的文本内容
-      var text = $("p").text();
-      console.log("第一次：=========>"+text)
-      // 再将text中的???转换为div
-      var text1 = text.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
-      // $("p").text(text1);
-      var newText = $("p").text();
-      console.log("第二次：=========>"+newText)
-      var text2= newText.replace(new RegExp('/UMLend','g'),"</div>")
-      // $("p").text(text2);
-      console.log("最后一次：=========>"+$("p").text())
+      var p = $('p');
+      for(let i = 0;i<p.length;i++){
+        let str = p[i].innerText;
+        if(str.indexOf("UMLbegin")!=-1||str.indexOf("/UMLend")!=-1){
+          let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
+          let laststr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
+          p[i].innerText = laststr;
+        }  
+      }
+      // // 先获取到p段落中的文本内容
+      // var text = $("p").text();
+      // console.log("第一次：=========>"+text)
+      // // 再将text中的???转换为div
+      // var text1 = text.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
+      // // $("p").text(text1);
+      // var newText = $("p").text();
+      // console.log("第二次：=========>"+newText)
+      // var text2= newText.replace(new RegExp('/UMLend','g'),"</div>")
+      // // $("p").text(text2);
+      // console.log("最后一次：=========>"+$("p").text())
     })
    
  
