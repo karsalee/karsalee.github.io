@@ -298,18 +298,19 @@
   <script>
     // 实现UML图转换
     $().ready(function () {
-      // var p = $('p');
-      // for(let i = 0;i<p.length;i++){
-      //   let str = p[i].innerHTML;
-      //   if(str.indexOf("UMLbegin")!=-1||str.indexOf("/UMLend")!=-1){
-      //     console.log(str)
-      //     let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
-      //     let laststr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
-      //     console.log(laststr)
-      //     p[i].innerHTML = laststr;
-      //     $('p div').unwrap();
-      //   }  
-      // }
+      var p = $('p');
+      for(let i = 0;i<p.length;i++){
+        let str = p[i].innerHTML;
+        if(str.indexOf("UMLbegin")!=-1||str.indexOf("/UMLend")!=-1){
+          console.log(str)
+          let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
+          let sectstr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
+          let laststr= sectstr.replace(new RegExp('–','g'),"--");
+          console.log(laststr)
+          p[i].innerHTML = laststr;
+          $('p div').unwrap();
+        }  
+      }
       
     })
     
