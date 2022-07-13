@@ -308,14 +308,16 @@
           $('p div').unwrap();
         }  
       }
-      mermaid.initialize();
+      
     })
     
   </script>
   
 
   <script>
-        
+    $(document).load(function() {
+      mermaid.initialize();
+    });
   </script>
   <script src="{{ "/assets/js/prism.js" | relative_url }}"></script>
   <script src="{{ "/assets/js/index.min.js" | relative_url }}"></script>
