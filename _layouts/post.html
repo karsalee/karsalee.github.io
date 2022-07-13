@@ -303,10 +303,8 @@
       var text = $("p").text();
       console.log(text)
       // 再将text中的???转换为div
-      var reg =/+UMLgraph/g
-      text.replace(reg,"<div class=\"mermaid\">");
-      var reg1 =/+/UMLgraph/g 
-      text.replace(reg1,"</div>")
+      text.replace(new RegExp('UMLgraph','g'),"<div class=\"mermaid\">");
+      text.replace(new RegExp('/UMLgraph','g'),"</div>")
       console.log(text)
     })
    
