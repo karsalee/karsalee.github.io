@@ -300,7 +300,8 @@
     $().ready(function () {
       var p = $('p');
       for(let i = 0;i<p.length;i++){
-        let str = p[i].innerText;
+        let str = p[i].innerHTML;
+        console.log(p[i])
         if(str.indexOf("UMLbegin")!=-1||str.indexOf("/UMLend")!=-1){
           console.log(str)
           let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
