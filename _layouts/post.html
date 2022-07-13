@@ -315,7 +315,9 @@
   
 
   <script>
-    
+    $(document).load(function() {
+      mermaid.initialize({startOnLoad:false});
+    });
   </script>
   <script src="{{ "/assets/js/prism.js" | relative_url }}"></script>
   <script src="{{ "/assets/js/index.min.js" | relative_url }}"></script>
