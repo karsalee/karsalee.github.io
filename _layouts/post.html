@@ -301,14 +301,15 @@
       // 实现UML图转换
       // 先获取到p段落中的文本内容
       var text = $("p").text();
-      console.log(text)
+      console.log("第一次：=========>"+text)
       // 再将text中的???转换为div
-      text.replace(new RegExp('UMLgraph','g'),"<div class=\"mermaid\">");
-      $("p").text(text);
+      var text1 = text.replace(new RegExp('UMLgraph','g'),"<div class=\"mermaid\">");
+      $("p").text(text1);
       var newText = $("p").text();
-      newText.replace(new RegExp('/UMLgraph','g'),"</div>")
-      $("p").text(newText);
-      console.log($("p").text())
+      console.log("第二次：=========>"+newText)
+      var text2= newText.replace(new RegExp('/UMLgraph','g'),"</div>")
+      $("p").text(text2);
+      console.log("最后一次：=========>"+$("p").text())
     })
    
  
