@@ -306,7 +306,7 @@
           let laststr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
           p[i].innerHTML = laststr;
           console.log(p[i])
-          $('p').unwrap();
+          $('p div').unwrap();
         }  
       }
     })
