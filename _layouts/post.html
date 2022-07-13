@@ -305,11 +305,10 @@
           let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
           let laststr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
           p[i].innerHTML = laststr;
-          console.log(p[i])
           $('p div').unwrap();
         }  
       }
-      mermaid.initialize({ startOnLoad: true });
+      mermaid.initialize({ startOnLoad: false });
     })
     
   </script>
