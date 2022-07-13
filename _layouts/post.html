@@ -302,9 +302,9 @@
       // 先获取到p段落中的文本内容
       var text = $("p").text();
       // 再将text中的???转换为div
-      var reg = new RegExp("???","g");
+      var reg = new RegExp(">UMLgraph","g");
       text.replace(reg,"<div class=\"mermaid\">");
-      var reg1 = new RegExp("/???","g"); 
+      var reg1 = new RegExp(">/UMLgraph","g"); 
       text.replace(reg1,"</div>")
     })
    
