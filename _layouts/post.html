@@ -302,6 +302,7 @@
       for(let i = 0;i<p.length;i++){
         let str = p[i].innerText;
         if(str.indexOf("UMLbegin")!=-1||str.indexOf("/UMLend")!=-1){
+          console.log(str)
           let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
           let laststr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
           console.log(laststr)
