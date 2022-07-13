@@ -294,6 +294,23 @@
       });
     }
   </script>
+  
+  <script>
+
+    $().ready(function () {
+      // 实现UML图转换
+      // 先获取到p段落中的文本内容
+      var text = $("p").text();
+      // 再将text中的???转换为div
+      var reg = new RegExp("???","g");
+      text.replace(reg,"<div class=\"mermaid\">");
+      var reg1 = new RegExp("/???","g"); 
+      text.replace(reg1,"</div>")
+    })
+   
+ 
+  </script>
+  
 
   <script>
         mermaid.initialize({ startOnLoad: true });
