@@ -304,7 +304,8 @@
         if(str.indexOf("UMLbegin")!=-1||str.indexOf("/UMLend")!=-1){
           let newstr = str.replace(new RegExp('UMLbegin','g'),"<div class=\"mermaid\">");
           let laststr= newstr.replace(new RegExp('/UMLend','g'),"</div>");
-          p[i].innerText = laststr;
+          p[i].innerHTML = laststr;
+          console.log(p[i])
           $('p').unwrap();
         }  
       }
